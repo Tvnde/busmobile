@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esc_pos_printer/esc_pos_printer.dart';
 
 class Sales extends StatefulWidget {
   @override
@@ -175,8 +175,15 @@ class _SalesState extends State<Sales> {
   }
 
   void printTicket() async {
+    /*final PrinterBluetoothManager printerBluetoothManager = PrinterBluetoothManager();
+    printerBluetoothManager.scanResults.listen((printers) {
+
+    });
+    printerBluetoothManager.startScan(Duration(seconds: 15));
+*/
+   /* printerBluetoothManager.selectPrinter(printer);*/
     final PrinterNetworkManager printerManager = PrinterNetworkManager();
-    printerManager.selectPrinter('192.168.0.123', port: 9100);
+    printerManager.selectPrinter('192.168.123.100', port: 9100);
     final PosPrintResult res = await printerManager.printTicket(testTicket());
 
     print('Print results: ${res.msg}');
@@ -226,7 +233,7 @@ class _SalesState extends State<Sales> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 6.83,
                       child: Image(
-                        image: AssetImage('assets/success.gif'),
+                        image: AssetImage('assets/success.png'),
                       ),
                     ),
                     SizedBox(

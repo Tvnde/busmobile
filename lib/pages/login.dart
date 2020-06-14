@@ -29,8 +29,14 @@ class User {
   }
 }
 class _LoginState extends State<Login> {
+  var loginState = '';
+  var loginButton = 'LOGIN';
 
   void findUser() async {
+    setState(() {
+      loginState = '';
+      loginButton = 'Loading...';
+    });
     var url = "https://busng.com/forappcheck2";
 
     Map data = {
@@ -44,8 +50,10 @@ class _LoginState extends State<Login> {
         body: body,
     );
 
-    if("${response.body}" != 'No user found'){
-      var user_details = json.decode(response.body);
+    var user_details = json.decode(response.body);
+
+    if(user_details["successful"]){
+      loginButton = 'LOGIN';
       if(user_details['type'] == 2009) {
         Navigator.pushReplacementNamed(context, '/storekeeper', arguments: {
           'name': user_details['name'],
@@ -58,6 +66,7 @@ class _LoginState extends State<Login> {
         });
       }
       else if(user_details['type'] == 1810) {
+        loginButton = 'LOGIN';
         Navigator.pushReplacementNamed(context, '/sales', arguments: {
           'name': user_details['name'],
           'email': user_details['email'],
@@ -74,15 +83,23 @@ class _LoginState extends State<Login> {
         ),
       ); */
     }
-    else {
-      print("No user found");
+    else if(user_details['error'] == 'No user found'){
+      setState(() {
+        loginState = "no user found";
+        loginButton = 'LOGIN';
+      });
+    }
+    else if(user_details['error'] == 'Invalid Password'){
+      setState(() {
+        loginState = "incorrect password";
+        loginButton = 'LOGIN';
+      });
     }
   }
 
   String _counter, _value = '';
 
 Future scanBarcodeNormal() async {
-
   String barcodeRes = '';
   barcodeRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
   print(barcodeRes);
@@ -146,7 +163,7 @@ Future scanBarcodeNormal() async {
                   SizedBox(height: screen_height/5.0),
             Container(
               width: double.infinity,
-              height: screen_height/2.2,
+              height: screen_height/1.9,
               decoration: BoxDecoration(
                   color: Color.fromRGBO(75, 128, 197, 0.8),
                   borderRadius: BorderRadius.circular(8.0),
@@ -175,6 +192,15 @@ Future scanBarcodeNormal() async {
                         color: Colors.white70,
                         fontFamily: "Raleway",
                         fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: screen_height/35,),
+                    Text(
+                      loginState,
+                      style: TextStyle(
+                        color: Colors.yellowAccent,
+                        fontSize: screen_width/31.7,
+                        fontFamily: "Raleway"
                       ),
                     ),
                     SizedBox(height: screen_height/35,),
@@ -240,7 +266,7 @@ Future scanBarcodeNormal() async {
                           InkWell(
                             child: Container(
                               height: screen_height/13,
-                              width: screen_width/5.2,
+                              width: screen_width/4,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -255,7 +281,7 @@ Future scanBarcodeNormal() async {
                                 child: InkWell(
                                   onTap: findUser,
                                   child: Center(
-                                    child: Text("LOGIN",
+                                    child: Text(loginButton,
                                       style: TextStyle(
                                         color: Color(0xFF568EDA),
                                         fontFamily: "Raleway",

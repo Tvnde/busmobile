@@ -37,6 +37,12 @@ class _OldstockState extends State<Oldstock> {
   String _productcat;
   String _productdetails;
 
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _costController = TextEditingController();
+  final TextEditingController _sellingController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 
@@ -123,7 +129,7 @@ class _OldstockState extends State<Oldstock> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 6.83,
                     child: Image(
-                      image: AssetImage('assets/success.gif'),
+                      image: AssetImage('assets/success.png'),
                     ),
                   ),
                   SizedBox(
@@ -248,61 +254,88 @@ class _OldstockState extends State<Oldstock> {
                     }).toList(),
                   ),
                   SizedBox(height: screen_height/34.2,),
-                  Text(
-                    'NAME',
-                    style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 2.0,
-                        fontSize: screen_width/27.2
-                    ),
-                  ),
-                  Text(
-                    productName,
-                    style: TextStyle(
-                      fontSize: screen_width/16.5,
-                      color: Colors.yellowAccent,
-                    ),
+                  TextField(
+                    controller: _nameController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
+                          prefixIcon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          hintText: "No Product Selected",
+                          hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontFamily: "Raleway"
+                          )
+                      ),
                   ),
                   SizedBox(height: 20.0,),
-                  Text(
-                    'COST PRICE',
-                    style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 2.0,
-                        fontSize: screen_width/27.2
-                    ),
-                  ),
-                  Text(
-                    productCost,
-                    style: TextStyle(
-                      fontSize: screen_width/16.44,
-                      color: Colors.yellowAccent,
-                    ),
-                  ),
-                  SizedBox(height: screen_height/34.2,),
-                  Text(
-                    'SELLING PRICE',
-                    style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 2.0,
-                        fontSize: screen_width/27.2
-                    ),
-                  ),
-                  Text(
-                    productSelling,
-                    style: TextStyle(
-                      fontSize: screen_width/16.44,
-                      color: Colors.yellowAccent,
-                    ),
+                  TextField(
+                    controller: _costController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
+                          prefixIcon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          hintText: "No Product Selected",
+                          hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontFamily: "Raleway"
+                          )
+                      )
                   ),
                   SizedBox(height: screen_height/34.2,),
-                  Text(
-                    'CODE INFORMATION',
-                    style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 2.0,
-                        fontSize: screen_width/27.2
-                    ),
+                  TextField(
+                    controller: _sellingController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
+                          prefixIcon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          hintText: "No Product Selected",
+                          hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontFamily: "Raleway"
+                          )
+                      )
+                  ),
+                  SizedBox(height: screen_height/34.2,),
+                  TextField(
+                    controller: _detailsController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
+                          prefixIcon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          hintText: "No Product Selected",
+                          hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontFamily: "Raleway"
+                          )
+                      )
                   ),
                   Text(
                     productCode,

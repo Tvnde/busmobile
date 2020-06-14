@@ -97,7 +97,7 @@ class _NewstockState extends State<Newstock> {
         return CupertinoAlertDialog(
           title: new Text('Successful!'),
           content: Image(
-            image: AssetImage('assets/success.gif'),
+            image: AssetImage('assets/success.png'),
           ),
         );
       },
