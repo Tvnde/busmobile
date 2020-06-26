@@ -6,6 +6,7 @@ import 'package:businessunlimitedsolution/pages/maindashboard.dart';
 import 'package:businessunlimitedsolution/pages/storekeeper.dart';
 import 'package:businessunlimitedsolution/pages/sales.dart';
 import 'package:businessunlimitedsolution/pages/newstock.dart';
+import 'package:businessunlimitedsolution/pages/print.dart';
 
 void main() => runApp(MaterialApp(
   home: Splash(),
@@ -16,6 +17,7 @@ void main() => runApp(MaterialApp(
     '/newstock': (context) => Newstock(),
     '/oldstock': (context) => Oldstock(),
     '/sales': (context) => Sales(),
+    '/print': (context) => PrintReceipt(),
   },
 ));
 

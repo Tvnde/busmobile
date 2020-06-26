@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:businessunlimitedsolution/pages/login.dart';
-import 'package:businessunlimitedsolution/pages/newstock.dart';
-import 'package:businessunlimitedsolution/pages/oldstock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Storekeeper extends StatefulWidget {

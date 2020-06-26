@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:businessunlimitedsolution/pages/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Oldstock extends StatefulWidget {
@@ -68,6 +66,9 @@ class _OldstockState extends State<Oldstock> {
     setState(() {
       this.currentProduct = newValue;
       productName = newValue;
+      _costController.text = details['cost_price'];
+      _sellingController.text = details['selling_price'];
+      _nameController.text = newValue;
       productCost = details['cost_price'];
       productSelling = details['selling_price'];
       if(details['qr_info'] == null){
@@ -92,7 +93,10 @@ class _OldstockState extends State<Oldstock> {
     Map data = {
       'qr_string': productCode,
       'product_name': currentProduct,
+      'new_name': _nameController.text,
       'company_id': companyy,
+      'product_cost': _costController.text,
+      'product_selling': _sellingController.text,
     };
     var body = json.encode(data);
     var url_info = 'https://busng.com/saveinfo';
@@ -229,7 +233,7 @@ class _OldstockState extends State<Oldstock> {
                 children: <Widget>[
                   DropdownButton(
                     hint: Text(
-                      "Select Product",
+                      "Select Product(Product Name)",
                       style: TextStyle(
                           color: Colors.white54,
                           fontFamily: "Raleway"
@@ -267,7 +271,7 @@ class _OldstockState extends State<Oldstock> {
                             Icons.add_shopping_cart,
                             color: Colors.white,
                           ),
-                          hintText: "No Product Selected",
+                          hintText: "No Product Selected(Cost Price)",
                           hintStyle: TextStyle(
                               color: Colors.white54,
                               fontFamily: "Raleway"
@@ -277,7 +281,7 @@ class _OldstockState extends State<Oldstock> {
                   SizedBox(height: 20.0,),
                   TextField(
                     controller: _costController,
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.number,
                       style: TextStyle(
                         color: Colors.white70,
                       ),
@@ -285,10 +289,10 @@ class _OldstockState extends State<Oldstock> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
                           prefixIcon: Icon(
-                            Icons.add_shopping_cart,
+                            Icons.monetization_on,
                             color: Colors.white,
                           ),
-                          hintText: "No Product Selected",
+                          hintText: "No Product Selected(Selling Price)",
                           hintStyle: TextStyle(
                               color: Colors.white54,
                               fontFamily: "Raleway"
@@ -298,7 +302,7 @@ class _OldstockState extends State<Oldstock> {
                   SizedBox(height: screen_height/34.2,),
                   TextField(
                     controller: _sellingController,
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.number,
                       style: TextStyle(
                         color: Colors.white70,
                       ),
@@ -306,7 +310,7 @@ class _OldstockState extends State<Oldstock> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
                           prefixIcon: Icon(
-                            Icons.add_shopping_cart,
+                            Icons.monetization_on,
                             color: Colors.white,
                           ),
                           hintText: "No Product Selected",
@@ -319,23 +323,11 @@ class _OldstockState extends State<Oldstock> {
                   SizedBox(height: screen_height/34.2,),
                   TextField(
                     controller: _detailsController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(
-                        color: Colors.white70,
-                      ),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(top: MediaQuery.of(context).size.height/68.3),
-                          prefixIcon: Icon(
-                            Icons.add_shopping_cart,
-                            color: Colors.white,
-                          ),
-                          hintText: "No Product Selected",
-                          hintStyle: TextStyle(
-                              color: Colors.white54,
-                              fontFamily: "Raleway"
-                          )
-                      )
+                    style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing: 2.0,
+                        fontSize: screen_width/27.2
+                    ),
                   ),
                   Text(
                     productCode,

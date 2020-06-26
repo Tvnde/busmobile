@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:businessunlimitedsolution/pages/storekeeper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:progress_button/progress_button.dart';
-import 'package:businessunlimitedsolution/Widgets/FormCard.dart';
 
 class Login extends StatefulWidget {
 

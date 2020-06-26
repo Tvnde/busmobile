@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:businessunlimitedsolution/pages/storekeeper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:esc_pos_printer/esc_pos_printer.dart';
 
 class Sales extends StatefulWidget {
   @override
@@ -114,6 +111,9 @@ class _SalesState extends State<Sales> {
     )).toList(),
   );
   double totalPrice = 0.0;
+  var quants = [];
+  var all_items = [];
+  var all_prices = [];
 
   void testAddProduct() async {
     Map data = {
@@ -158,35 +158,9 @@ class _SalesState extends State<Sales> {
 
     setState(() {
       totalPrice = totalPrice + double.parse(holder1['selling_price']);
-
-
+      quants.add(1);
     });
-  }
-
-  Ticket testTicket() {
-    final Ticket ticket = Ticket(PaperSize.mm80);
-    
-    ticket.text('ITEMS SOLD  Quantity  Price');
-    ticket.text('Special1: A B C D', styles: PosStyles(codeTable: PosCodeTable.westEur));
-
-    ticket.feed(2);
-    ticket.cut();
-    return ticket;
-  }
-
-  void printTicket() async {
-    /*final PrinterBluetoothManager printerBluetoothManager = PrinterBluetoothManager();
-    printerBluetoothManager.scanResults.listen((printers) {
-
-    });
-    printerBluetoothManager.startScan(Duration(seconds: 15));
-*/
-   /* printerBluetoothManager.selectPrinter(printer);*/
-    final PrinterNetworkManager printerManager = PrinterNetworkManager();
-    printerManager.selectPrinter('192.168.123.100', port: 9100);
-    final PosPrintResult res = await printerManager.printTicket(testTicket());
-
-    print('Print results: ${res.msg}');
+    print(all_items);
   }
 
   void saveOrder() async {
@@ -258,7 +232,26 @@ class _SalesState extends State<Sales> {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: printTicket,
+                                onTap: () {
+                                  print(totalPrice);
+                                  products.forEach((product) {
+                                    all_items.add(product.name);
+                                    all_prices.add(product.sale_price);
+                                  });
+                                  var all_items2 = all_items;
+                                  var all_prices2 = all_prices;
+                                  all_items.clear();
+                                  all_prices.clear();
+                                  Navigator.pushReplacementNamed(context, '/print', arguments: {
+                                    'name': data_main['name'],
+                                    'email': data_main['email'],
+                                    'company_name': data_main['company_name'],
+                                    'all_items': all_items2,
+                                    'all_prices': all_prices2,
+                                    'total_price': totalPrice.toString()
+
+                                  });
+                                },
                                 child: Center(
                                   child: Text("Print",
                                     style: TextStyle(
@@ -418,9 +411,6 @@ class _SalesState extends State<Sales> {
                 print(products);
                 print(Product(id: id, name: name, price: price, quantity: quantity, sale_price: sale_price).toJson());
                 print(id);
-                setState(() {
-
-                });
               },
             )
           ],
@@ -475,6 +465,7 @@ class _SalesState extends State<Sales> {
                       InkWell(
                         child: Text("Logout", style: TextStyle(color: Colors.white, fontSize: 18.0),),
                         onTap: () {
+                          products.clear();
                           Navigator.pushReplacementNamed(context, '/login');
                         },
                       ),
@@ -626,7 +617,6 @@ class _SalesState extends State<Sales> {
                                         onPressed: () {
                                           products.remove(product);
                                           setState(() {
-
                                           });
                                         },
                                       )
