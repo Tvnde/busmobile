@@ -91,19 +91,6 @@ class _NewstockState extends State<Newstock> {
         headers: {"Content-Type":"application/json"},
         body: body);
     print(response.body);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: new Text('Successful!'),
-          content: Image(
-            image: AssetImage('assets/success.png'),
-          ),
-        );
-      },
-      barrierDismissible: true,
-    );
-
     producttoJson = await  Future.delayed(Duration(seconds: 1), () {return jsonEncode(product1);});
     print('$producttoJson');
     showDialog(
@@ -135,7 +122,7 @@ class _NewstockState extends State<Newstock> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 6.83,
                     child: Image(
-                      image: AssetImage('assets/success.gif'),
+                      image: AssetImage('assets/success.png'),
                     ),
                   ),
                   SizedBox(

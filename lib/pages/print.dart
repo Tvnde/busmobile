@@ -56,7 +56,7 @@ class _PrintReceiptState extends State<PrintReceipt> {
         ),
         linesAfter: 1);
 
-    ticket.text(data_main['email'], styles: PosStyles(align: PosAlign.center));/*
+    /*ticket.text(data_main['email'], styles: PosStyles(align: PosAlign.center));
     ticket.text('New Braunfels, TX', styles: PosStyles(align: PosAlign.center));
     ticket.text('Tel: 830-221-1234', styles: PosStyles(align: PosAlign.center));
     ticket.text('Web: www.example.com',
@@ -65,21 +65,21 @@ class _PrintReceiptState extends State<PrintReceipt> {
     ticket.hr();
     ticket.row([
       PosColumn(text: 'Qty', width: 1),
-      PosColumn(text: 'Item', width: 7),
+      PosColumn(text: 'Item  ', width: 7),
       PosColumn(
-          text: 'Price', width: 2, styles: PosStyles(align: PosAlign.right)),
+          text: 'Price ', width: 2, styles: PosStyles(align: PosAlign.right)),
       PosColumn(
           text: 'Total', width: 2, styles: PosStyles(align: PosAlign.right)),
     ]);
 
     for(int g=0; g < data_main['all_items'].length; g++){
       ticket.row([
-        PosColumn(text: '1', width: 1),
-        PosColumn(text: data_main['all_items'][g], width: 7),
+        PosColumn(text: data_main['quant'][g].toString(), width: 1),
+        PosColumn(text: data_main['all_items'][g], width: 7, styles: PosStyles(height: PosTextSize.size1, width: PosTextSize.size1)),
         PosColumn(
-            text: data_main['all_prices'][g], width: 2, styles: PosStyles(align: PosAlign.right)),
+            text: data_main['all_prices'][g].toString(), width: 2, styles: PosStyles(align: PosAlign.right, height: PosTextSize.size1, width: PosTextSize.size1)),
         PosColumn(
-            text: data_main['all_prices'][g], width: 2, styles: PosStyles(align: PosAlign.right)),
+            text: (data_main['all_prices'][g] * data_main['quant'][g]).toString(), width: 2, styles: PosStyles(align: PosAlign.right, height: PosTextSize.size1, width: PosTextSize.size1)),
       ]);
     }
     ticket.hr();
@@ -180,10 +180,10 @@ class _PrintReceiptState extends State<PrintReceipt> {
       ),
     ]);
 
-    ticket.text('Text size 200%',
+    ticket.text('Text size 100%',
         styles: PosStyles(
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
+          height: PosTextSize.size5,
+          width: PosTextSize.size5,
         ));
 
     // Print image
@@ -228,7 +228,6 @@ class _PrintReceiptState extends State<PrintReceipt> {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     var screen_height = mediaQuery.size.height;
     var screen_width = mediaQuery.size.width;
-    print(data_main['total_price']);
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       body: ListView.builder(
@@ -254,7 +253,7 @@ class _PrintReceiptState extends State<PrintReceipt> {
                               Text(all_devices[index].name ?? ''),
                               Text(all_devices[index].address),
                               Text(
-                                'Click to print a test receipt',
+                                'Click to print receipt',
                                 style: TextStyle(color: Colors.grey[700]),
                               ),
                             ],

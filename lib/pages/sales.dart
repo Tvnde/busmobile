@@ -158,9 +158,7 @@ class _SalesState extends State<Sales> {
 
     setState(() {
       totalPrice = totalPrice + double.parse(holder1['selling_price']);
-      quants.add(1);
     });
-    print(all_items);
   }
 
   void saveOrder() async {
@@ -177,7 +175,7 @@ class _SalesState extends State<Sales> {
                   headers: {"Content-Type": "application/json"},
                   body: body);
     print(response.body);
-    products.clear();
+    //products.clear();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -237,18 +235,22 @@ class _SalesState extends State<Sales> {
                                   products.forEach((product) {
                                     all_items.add(product.name);
                                     all_prices.add(product.sale_price);
+                                    quants.add(product.quantity);
                                   });
-                                  var all_items2 = all_items;
-                                  var all_prices2 = all_prices;
-                                  all_items.clear();
-                                  all_prices.clear();
+                                  var totall = totalPrice;
+                                  totalPrice = 0.0;
+                                  print(all_items);
+                                  print(all_prices);
+                                  print(quants);
+                                  print(totall);
                                   Navigator.pushReplacementNamed(context, '/print', arguments: {
                                     'name': data_main['name'],
                                     'email': data_main['email'],
                                     'company_name': data_main['company_name'],
-                                    'all_items': all_items2,
-                                    'all_prices': all_prices2,
-                                    'total_price': totalPrice.toString()
+                                    'all_items': all_items,
+                                    'all_prices': all_prices,
+                                    'quant': quants,
+                                    'total_price': totall.toString()
 
                                   });
                                 },
@@ -287,6 +289,7 @@ class _SalesState extends State<Sales> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
+                                  products.clear();
                                 },
                                 child: Center(
                                   child: Text("Close",
@@ -312,9 +315,6 @@ class _SalesState extends State<Sales> {
         },
       barrierDismissible: true,
     );
-    setState(() {
-      totalPrice = 0.0;
-    });
   }
 
   Map data_main = {};
@@ -483,36 +483,81 @@ class _SalesState extends State<Sales> {
                     ),
                   ),
                   SizedBox(height: screen_height/19,),
-                  InkWell(
-                    child: Container(
-                      height: screen_height/18,
-                      width: screen_width/3.5,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFD7E1EC),
-                              Color(0xFFFFFFFF),
-                            ]
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: scanBarcodeNormal,
-                          child: Center(
-                            child: Text("Scan Product",
-                              style: TextStyle(
-                                color: Color(0xFF568EDA),
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.w700,
-                                fontSize: screen_width/28,
+                  Row(
+                    children: <Widget>[
+                      InkWell(
+                        child: Container(
+                          height: screen_height/18,
+                          width: screen_width/3.5,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFFD7E1EC),
+                                  Color(0xFFFFFFFF),
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: scanBarcodeNormal,
+                              child: Center(
+                                child: Text("Scan Product",
+                                  style: TextStyle(
+                                    color: Color(0xFF568EDA),
+                                    fontFamily: "Raleway",
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: screen_width/28,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: screen_width/3.5,),
+                      InkWell(
+                        child: Container(
+                          height: screen_height/18,
+                          width: screen_width/3.5,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFFD7E1EC),
+                                  Color(0xFFFFFFFF),
+                                ]
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  totalPrice = 0;
+                                  products.clear();
+                                  all_items.clear();
+                                  quants.clear();
+                                  all_prices.clear();
+                                });
+
+                              },
+                              child: Center(
+                                child: Text("Clear Table",
+                                  style: TextStyle(
+                                    color: Color(0xFF568EDA),
+                                    fontFamily: "Raleway",
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: screen_width/28,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: screen_height/35),
                   Container(
